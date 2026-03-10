@@ -1,0 +1,59 @@
+---
+# .clang-tidy
+# Analyze only the files in the include/physics and source directories
+HeaderFilterRegex: '^.*/include/physics/.*\.hpp$'
+
+# -----------------------------------------------------------------------------
+# Checks configuration
+# -----------------------------------------------------------------------------
+Checks: >
+  -*,
+  bugprone-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  performance-*,
+  readability-*, -readability-identifier-length,
+  # Disable specific checks that conflict with our ECS design or style:
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  -readability-magic-numbers,
+  -cppcoreguidelines-avoid-magic-numbers
+
+WarningsAsErrors: true
+
+# -----------------------------------------------------------------------------
+# Specific rule configurations
+# -----------------------------------------------------------------------------
+CheckOptions:
+  # --- Naming Conventions ---
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  - key: readability-identifier-naming.ClassCase
+    value: lower_case
+  - key: readability-identifier-naming.StructCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.MethodCase
+    value: lower_case
+  - key: readability-identifier-naming.PublicMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: "_"
+
+  # --- Modernize / Performance ---
+  - key: modernize-pass-by-value.IncludeStyle
+    value: llvm
+  - key: performance-move-const-arg.CheckTriviallyCopyableMove
+    value: false
+...

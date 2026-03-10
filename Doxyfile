@@ -1,0 +1,27 @@
+# Project Metadata
+PROJECT_NAME           = "LRU Cache"
+PROJECT_NUMBER         = 0.1.0
+PROJECT_BRIEF          = "C++ LRU Cache implementation"
+OUTPUT_DIRECTORY       = doxygen-output
+CREATE_SUBDIRECTORIES  = YES
+
+# Input Configuration
+INPUT                  = include README.md
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.cpp *.md
+USE_MDRANKS            = YES
+MAIN_PAGE              = README.md
+
+# Extraction Settings
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+
+# Built-in C++ Template Support
+TEMPLATE_RELATIONS     = YES
+SEARCH_INCLUDES        = YES
+
+# HTML Output
+GENERATE_HTML          = YES
+HTML_EXTRA_STYLESHEET  = 
+GENERATE_LATEX         = NO
