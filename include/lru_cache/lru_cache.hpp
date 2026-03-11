@@ -2,6 +2,7 @@
 #define LRU_CACHE_LRU_CACHE_HPP
 
 // LRU Cache
+#include <lru_cache/internal/detail.hpp>
 #include <lru_cache/internal/macros.hpp>
 
 // Hash set
@@ -63,7 +64,7 @@ struct lru_cache_node {
     }
 
     LRU_CACHE_CONSTEXPR_20 ~lru_cache_node() {
-        modifiable.~Modifiable();  // NOLINT
+        internal::destroy_in_place(std::addressof(modifiable));  // NOLINT
     }
 
     LRU_CACHE_CONSTEXPR_20 lru_cache_node(const Modifiable& p)
@@ -416,9 +417,10 @@ class lru_cache {
         if (it == end()) {
             auto emplaced = set_.emplace(detail::uninitialized_value,
                                          std::forward<Key>(key));
-            auto&& p = set_iterator_to_node(emplaced.first);
-            new (std::addressof(p->value()))
-                mapped_type(std::forward<Args>(args)...);
+            auto p = set_iterator_to_node(emplaced.first);
+
+            internal::construct_in_place(std::addressof(p->value()),
+                                         std::forward<Args>(args)...);
 
             p->next = first_;
             if (first_) {
