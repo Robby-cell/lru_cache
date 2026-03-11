@@ -356,23 +356,23 @@ class lru_cache {
         }
 
         auto node = detail::node_extractor::extract(it);
-        if (node->previous_) {
-            node->previous_->next_ = node->next_;
+        if (node->previous) {
+            node->previous->next = node->next;
         }
-        if (node->next_) {
-            node->next_->previous_ = node->previous_;
+        if (node->next) {
+            node->next->previous = node->previous;
         }
 
         auto old = self.first_;
         self.first_ = node;
-        old->previous_ = node;
+        old->previous = node;
 
-        if (!node->next_) {
-            self.last_ = node->previous_;
+        if (!node->next) {
+            self.last_ = node->previous;
         }
 
-        node->previous_ = nullptr;
-        node->next_ = old;
+        node->previous = nullptr;
+        node->next = old;
 
         return iterator_type{node};
     }
@@ -420,7 +420,7 @@ class lru_cache {
             new (std::addressof(p->accessible.second))
                 mapped_type(std::forward<Args>(args)...);
 
-            p->next_ = first_;
+            p->next = first_;
             if (first_) {
                 first_->previous = p;
             }
@@ -438,13 +438,13 @@ class lru_cache {
             it->second = mapped_type{std::forward<Args>(args)...};
 
             auto node = detail::node_extractor::extract(it);
-            if (node->previous_) {
-                node->previous_->next_ = node->next_;
+            if (node->previous) {
+                node->previous->next = node->next;
             }
-            if (node->next_) {
-                node->next_->previous_ = node->previous_;
+            if (node->next) {
+                node->next->previous = node->previous;
             }
-            node->next_ = first_;
+            node->next = first_;
 
             first_ = node;
             return iterator(it);
