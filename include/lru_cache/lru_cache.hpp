@@ -417,7 +417,7 @@ class lru_cache {
             auto emplaced = set_.emplace(detail::uninitialized_value,
                                          std::forward<Key>(key));
             auto&& p = set_iterator_to_node(emplaced.first);
-            new (std::addressof(p->accessible.second))
+            new (std::addressof(p->value()))
                 mapped_type(std::forward<Args>(args)...);
 
             p->next = first_;
