@@ -12,7 +12,7 @@ endif ()
 
 include(GoogleTest)
 
-# --- Tests ---
+# Tests
 add_executable(run_tests lru_cache_tests.cc)
 target_link_libraries(run_tests PRIVATE lru_cache::lru_cache gtest_main)
 set_target_properties(run_tests
@@ -20,5 +20,10 @@ set_target_properties(run_tests
         CXX_STANDARD 11
         CXX_STANDARD_REQUIRED ON
         CXX_EXTENSIONS OFF)
+target_compile_options(run_tests PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/Zi>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-g>
+)
+target_link_options(run_tests PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/DEBUG>)
 
 gtest_discover_tests(run_tests)
